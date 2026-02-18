@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 
 test('sum of Due values should be correct', async ({ page }) => {
   await page.locator('[href="/tables"]').click();
-  await page.locator('id="table1"').waitFor();
+  await page.locator('#table1').waitFor();
   // get Due column elements
     const dueItems = page.locator('//*[@id="table1"]//td[4]');
   let actualSum = 0;
