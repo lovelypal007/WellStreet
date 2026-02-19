@@ -16,9 +16,9 @@ test('populated text should be displayed in dynamic control', async ({ page }) =
 
   // expect that inputField is enabled
   await page.locator('[id="message"]').waitFor();
-  expect(inputField).toBeEnabled();
+  await expect(inputField).toBeEnabled();
   // input randomString into inputField
   await inputField.fill(randomString)
   // expect that randomString is displayed
-  expect(inputField).toHaveValue(randomString);
+  await expect(inputField).toHaveValue(randomString);
 });

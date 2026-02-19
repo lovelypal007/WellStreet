@@ -18,10 +18,9 @@ test('sum of Due values should be correct', async ({ page }) => {
   for (let i = 0; i < await dueItems.count(); i++) {
     // get value in the column
     await dueItems.nth(i).waitFor();
-    const value = await dueItems.nth(i).innerText();
+    const allTexts = await dueItems.nth(i).allInnerTexts();
     // increase actualSum with value without currencySign
-    actualSum += parseFloat(value?.replace(currencySign, '') || '0');
+    actualSum += parseFloat(allTexts[0]?.replace(currencySign, '') || '0');
   }
-
-  expect(actualSum).toEqual(expectedSum);
+    expect(actualSum).toEqual(expectedSum);
 });
