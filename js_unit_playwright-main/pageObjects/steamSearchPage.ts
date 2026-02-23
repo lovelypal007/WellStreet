@@ -1,20 +1,19 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { BasePage } from "./basePage";
 
-export class SearchResults {
+export class SteamSearchPage extends BasePage {
     public searchResultList: Locator;
-    constructor(public page: Page) {
+    constructor(page: Page) {
+        super(page);
         this.searchResultList = page.locator('#search_result_container');
     }
-    async getResultTitle(index: number, expectedTitle: string) {
+    public async getResultTitle(index: number, expectedTitle: string):Promise<string> {
         const result = this.searchResultList.locator("a").nth(index);
-
         await expect(result).toContainText(expectedTitle);
-
-        const titleText = (await result.innerText()).split('\n')[index];
-        console.log(titleText);
-        return titleText;
+        const titleText:string[] = (await result.innerText()).split('\n');
+        return titleText[index];
     }
-    async clickOnResult(index: number) {
+    public async clickOnResult(index: number):Promise<void> {
         const result = this.searchResultList.locator("a").nth(index);
         await result.click();
     }

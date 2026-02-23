@@ -1,31 +1,26 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { BasePage } from "./basePage";
 
-export class GamePage {
+export class SteamGamePage extends BasePage {
     public gameName: Locator;
     public downloadButton: Locator;
     public gotSteamButton: Locator
-    constructor(public page: Page) {
-        this.page = page;
+    constructor(page: Page) {
+        super(page);
         this.gameName = page.locator('[id="appHubAppName"]');
         this.downloadButton = page.locator('[id="demoGameBtn"]');
         this.gotSteamButton = page.locator('[class="btn_blue"]');
     }
-    async gamePageIsDisplayed(gameTitle: string) {
-        await expect(this.page).toHaveTitle(gameTitle);
-    }
-    async getGameName() {
-        await this.gameName.waitFor();
+
+    public async getGameName():Promise<string> {
         const gameName = await this.gameName.textContent();
-        console.log(gameName);
-        return gameName;
+        return gameName || "";
     }
 
-    async clickDownloadButton() {
-        await this.downloadButton.waitFor();
+    public async clickDownloadButton():Promise<void> {
         await this.downloadButton.click();
     }
-    async clickGotSteamButton() {
-        await this.gotSteamButton.waitFor();
+    public async clickGotSteamButton():Promise<void> {
         await this.gotSteamButton.click();
     }
 }

@@ -1,25 +1,23 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { BasePage } from "./basePage";
 
-export class AboutPage {
+export class SteamAboutPage extends BasePage {
     public steamInstallButton: Locator;
-    public onlinegammerscount: Locator;
-    public playinggamerscount: Locator;
-    constructor(public page: Page) {
-        this.page = page;
+    public onlineGammerscount: Locator;
+    public playingGamerscount: Locator;
+    constructor(page:Page) {
+        super(page);
         this.steamInstallButton = page.locator('a.about_install_steam_link:visible');
-        this.onlinegammerscount = page.locator('.online_stat:has(.gamers_online)');
-        this.playinggamerscount = page.locator('.online_stat:has(.gamers_in_game)');
+        this.onlineGammerscount = page.locator('.online_stat:has(.gamers_online)');
+        this.playingGamerscount = page.locator('.online_stat:has(.gamers_in_game)');
     }
-    async aboutPageIsDisplayed(aboutPageTitle: string) {
-        await expect(this.page).toHaveTitle(aboutPageTitle);
-    }
-    async clickInstallSteamButton() {
-        await this.steamInstallButton.first().waitFor();
+
+    public async clickInstallSteamButton(): Promise<void>{
         await expect(this.steamInstallButton.first()).toBeEnabled();
     }
-    async comparegamersCount() {
-        const onlineCount = Number((await this.onlinegammerscount.textContent())?.replace(/[^0-9]/g, ''));
-        const inGameCount = Number((await this.playinggamerscount.textContent())?.replace(/[^0-9]/g, ''));
+    public async compareGamersCount():Promise<void> {
+        const onlineCount = Number((await this.onlineGammerscount.textContent())?.replace(/[^0-9]/g, ''));
+        const inGameCount = Number((await this.playingGamerscount.textContent())?.replace(/[^0-9]/g, ''));
         expect(inGameCount).toBeLessThan(onlineCount);
     }
 }
