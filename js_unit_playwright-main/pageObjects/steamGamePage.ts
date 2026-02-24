@@ -6,7 +6,7 @@ export class SteamGamePage extends BasePage {
     public downloadButton: Locator;
     public gotSteamButton: Locator
     constructor(page: Page) {
-        super(page);
+        super(page,"Steam game page");
         this.gameName = page.locator('[id="appHubAppName"]');
         this.downloadButton = page.locator('[id="demoGameBtn"]');
         this.gotSteamButton = page.locator('[class="btn_blue"]');
